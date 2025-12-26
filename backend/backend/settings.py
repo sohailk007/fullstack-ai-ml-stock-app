@@ -28,10 +28,8 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
-INSTALLED_APPS = [
+# Django core framework apps
+DJANGO_CORE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +37,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# External / third-party libraries
+EXTERNAL_APPS = [
+    'rest_framework',
+    # 'corsheaders',
+    # 'django_filters',
+]
+
+# Internal / Project Apps
+INTERNAL_APPS = [
+    'accounts',
+]
+
+# Installed applications
+INSTALLED_APPS = DJANGO_CORE_APPS + EXTERNAL_APPS + INTERNAL_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,4 +1,5 @@
 import React from 'react'
+import LogBtn from './common/LogBtn'
 
 const Main = () => {
   return (
@@ -9,9 +10,7 @@ const Main = () => {
         <p className='text-light lead'>This Stock Prediction Portal uses AI and Machine Learning to predict stock prices.
           Users can register and login to access personalized features and insights.
         </p>
-        <a className="btn btn-outline-info me-3" href="#">
-          Login
-        </a>
+        <LogBtn />
       </div>
 
     </div>
