@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Footer = () => {
+const Footer = ({ copyrightText }) => {
   return (
-    <footer className="mt-auto py-3">
-      <hr className="border-light opacity-25 m-0" />
-      <p className="text-light text-center mb-0">
-        © 2025 Stock Prediction Portal by Sohail Khan
+    <footer className="footer">
+      <p>
+        {copyrightText}
       </p>
     </footer>
   )

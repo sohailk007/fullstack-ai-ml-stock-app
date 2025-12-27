@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const RegBtn = () => {
   return (
     <>
-    <a className="btn btn-info ms-auto" href="#">
+    <Link className="btn btn-info ms-auto" to="/register/">
         Register
-    </a>
+    </Link>
     </>
   )
 }

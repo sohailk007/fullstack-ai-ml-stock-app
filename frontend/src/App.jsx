@@ -2,20 +2,22 @@ import './assets/css/style.css'
 import Header from './components/Header.jsx'
 import Main from './components/Main.jsx'
 import Footer from './components/Footer.jsx'
-
+import Register from './components/Register.jsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Login from './components/Login.jsx'
+ 
 function App() {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      
+    <>
+    <BrowserRouter>
       <Header />
-
-      {/* Main content grows and pushes footer down */}
-      <main className="flex-grow-1">
-        <Main />
-      </main>
-
-      <Footer />
-    </div>
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route path='/register/' element={<Register />} />
+        <Route path='/login/' element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+    </>
   )
 }
 

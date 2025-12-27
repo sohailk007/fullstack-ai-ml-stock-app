@@ -12,7 +12,6 @@ const Main = () => {
         </p>
         <LogBtn />
       </div>
-
     </div>
     </>
   )

@@ -1,6 +1,7 @@
 import React from "react";
 import RegBtn from "./common/RegBtn";
 import LogBtn from "./common/LogBtn";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -10,9 +11,9 @@ const Header = () => {
     >
       <div className="container-fluid">
         {/* Brand */}
-        <a className="navbar-brand fw-bold text-light" href="#">
+        <Link className="navbar-brand fw-bold text-light" to="/">
           Stock Prediction
-        </a>
+        </Link>
 
         {/* Right side buttons */}
         <div className="ms-auto d-flex">
