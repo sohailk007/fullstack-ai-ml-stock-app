@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,17 +21,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&)=r3f2ijq94j1bptmsiie#e52fz%q71+hxd)rjy07wm$dlj1('
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173" # Assuming frontend runs on 5173
+]
 
-# Application definition
-
-INSTALLED_APPS = [
+# Django core framework apps
+DJANGO_CORE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,9 +42,26 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# External / third-party libraries
+EXTERNAL_APPS = [
+    'rest_framework',
+    'corsheaders',
+    # 'django_filters',
+]
+
+# Internal / Project Apps
+INTERNAL_APPS = [
+    'accounts',
+]
+
+# Installed applications
+INSTALLED_APPS = DJANGO_CORE_APPS + EXTERNAL_APPS + INTERNAL_APPS
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
