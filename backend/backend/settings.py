@@ -26,7 +26,11 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173" # Assuming frontend runs on 5173
+]
 
 # Django core framework apps
 DJANGO_CORE_APPS = [
@@ -41,7 +45,7 @@ DJANGO_CORE_APPS = [
 # External / third-party libraries
 EXTERNAL_APPS = [
     'rest_framework',
-    # 'corsheaders',
+    'corsheaders',
     # 'django_filters',
 ]
 
@@ -57,6 +61,7 @@ INSTALLED_APPS = DJANGO_CORE_APPS + EXTERNAL_APPS + INTERNAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
