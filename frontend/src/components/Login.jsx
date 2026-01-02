@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { AuthContext } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -42,7 +46,8 @@ const Login = () => {
       localStorage.setItem("refresh", response.data.refresh);
 
       // Redirect or update auth state
-      window.location.href = "/dashboard";
+      setIsLoggedIn(true);
+      navigate("/dashboard");
 
     } catch (error) {
       console.error("Login error:", error);
