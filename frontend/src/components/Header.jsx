@@ -28,7 +28,20 @@ const Header = () => {
 
         <div>
           {isLoggedIn ? (
-            <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+            <>
+              <div style={{ display: "flex", gap: "20px" }}>
+                <button
+                  className="btn btn-info ms-auto"
+                  onClick={() => navigate("/dashboard/")}
+                >
+                  Dashboard
+                </button>
+
+                <button className="btn btn-danger" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {/* Right side buttons */}

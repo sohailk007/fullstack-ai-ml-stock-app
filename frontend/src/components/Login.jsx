@@ -10,7 +10,8 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
+
+  const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
@@ -26,18 +27,25 @@ const Login = () => {
     });
   };
 
-  // Handle login
+  // Handle login (JSON)
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrors({});
     setLoading(true);
 
+    const payload = {
+      email,
+      password,
+    };
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/v1/login/",
+        payload,
         {
-          email,
-          password,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -45,33 +53,37 @@ const Login = () => {
       localStorage.setItem("access", response.data.access);
       localStorage.setItem("refresh", response.data.refresh);
 
-      // Redirect or update auth state
+      // Update auth state & redirect
       setIsLoggedIn(true);
-      navigate("/dashboard");
-
+      navigate("/dashboard/");
     } catch (error) {
       console.error("Login error:", error);
-      setErrors({ general: "Invalid email or password." });
 
+      if (error.response?.data) {
+        setErrors(error.response.data);
+      } else {
+        setErrors({ general: "Invalid email or password." });
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <>
     <div className="container p-5 mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6 bg-light-dark p-4 rounded shadow">
           <h4 className="text-light text-center mb-4">Login</h4>
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} noValidate>
             {/* Email */}
             <div className="mb-3">
               <input
                 type="email"
                 name="email"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                className={`form-control ${
+                  errors.email ? "is-invalid" : ""
+                }`}
                 placeholder="Enter Email"
                 value={email}
                 onChange={handleChange}
@@ -97,6 +109,7 @@ const Login = () => {
                 <div className="invalid-feedback">{errors.password}</div>
               )}
             </div>
+
             {errors.general && (
               <div className="alert alert-danger text-center">
                 {errors.general}
@@ -110,7 +123,11 @@ const Login = () => {
             >
               {loading ? (
                 <>
-                  <FontAwesomeIcon icon={faSpinner} spin className="me-2" />
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    spin
+                    className="me-2"
+                  />
                   Logging in...
                 </>
               ) : (
@@ -121,7 +138,6 @@ const Login = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
 
