@@ -12,6 +12,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 User = get_user_model()
 
 @extend_schema(
+    tags=['Accounts'],
     request={
         "application/json": RegisterSerializer,
         },
@@ -24,6 +25,7 @@ class RegisterView(generics.CreateAPIView):
     parser_classes = [JSONParser]
 
 @extend_schema(
+    tags=['Accounts'],
     request={
         "application/json": TokenObtainPairSerializer
     },
@@ -36,6 +38,9 @@ class LoginView(TokenObtainPairView):
     request={
         "application/json": TokenRefreshSerializer
     },
+    responses={200: TokenRefreshSerializer},
+    tags=['Accounts'],
+    
 )
 class RefreshTokenView(TokenRefreshView):
     permission_classes = [AllowAny]
