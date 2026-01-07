@@ -8,13 +8,14 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
+    password2: "",
   });
 
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { username, email, password } = formData;
+  const { username, email, password, password2 } = formData;
 
   const handleChange = (e) => {
     setFormData({
@@ -29,10 +30,22 @@ const Register = () => {
     setSuccess(false);
     setErrors({});
 
+    const payload = {
+      username,
+      email,
+      password,
+      password2,
+    };
+
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/api/v1/register/",
-        formData
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       console.log("Registration successful:", response.data);
@@ -42,6 +55,7 @@ const Register = () => {
         username: "",
         email: "",
         password: "",
+        password2: "",
       });
     } catch (error) {
       if (error.response?.data) {
@@ -102,7 +116,9 @@ const Register = () => {
               <input
                 type="email"
                 name="email"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                className={`form-control ${
+                  errors.email ? "is-invalid" : ""
+                }`}
                 placeholder="Enter Email"
                 value={email}
                 onChange={handleChange}
@@ -111,7 +127,7 @@ const Register = () => {
             </div>
 
             {/* Password */}
-            <div className="mb-4">
+            <div className="mb-3">
               <input
                 type="password"
                 name="password"
@@ -125,6 +141,21 @@ const Register = () => {
               {renderError("password")}
             </div>
 
+            {/* Confirm Password */}
+            <div className="mb-4">
+              <input
+                type="password"
+                name="password2"
+                className={`form-control ${
+                  errors.password2 ? "is-invalid" : ""
+                }`}
+                placeholder="Confirm Password"
+                value={password2}
+                onChange={handleChange}
+              />
+              {renderError("password2")}
+            </div>
+
             <button
               type="submit"
               className="btn btn-info w-100"
@@ -132,7 +163,11 @@ const Register = () => {
             >
               {loading ? (
                 <>
-                  <FontAwesomeIcon icon={faSpinner} spin className="me-2" />
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    spin
+                    className="me-2"
+                  />
                   Please wait...
                 </>
               ) : (
