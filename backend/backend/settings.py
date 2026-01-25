@@ -170,11 +170,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 SPECTACULAR_SETTINGS = {
+    'SERVERS': [
+        {'url': '/api/v1', 'description': 'Production'},
+        {'url': 'http://localhost:8000/api/v1', 'description': 'Local'},
+    ],
     'TITLE': 'AI Stock Prediction API',
     'DESCRIPTION': (
         'AI-based stock prediction and recommendation system using Django REST Framework and machine learning models.'
     ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
+
+    # 👇 These two together fix it
+    'SCHEMA_PATH_PREFIX': r'/api/v1',
+    'SCHEMA_PATH_PREFIX_TRIM': True,
 }
+
