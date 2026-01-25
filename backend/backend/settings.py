@@ -55,6 +55,7 @@ EXTERNAL_APPS = [
 # Internal / Project Apps
 INTERNAL_APPS = [
     'accounts',
+    'stock_prediction',
 ]
 
 # Installed applications
