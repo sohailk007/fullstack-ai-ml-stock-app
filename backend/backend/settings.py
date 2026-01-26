@@ -55,6 +55,7 @@ EXTERNAL_APPS = [
 # Internal / Project Apps
 INTERNAL_APPS = [
     'accounts',
+    'stock_prediction',
 ]
 
 # Installed applications
@@ -162,6 +163,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -170,11 +177,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 SPECTACULAR_SETTINGS = {
+    'SERVERS': [
+        {'url': '/api/v1', 'description': 'Production'},
+        {'url': 'http://localhost:8000/api/v1', 'description': 'Local'},
+    ],
     'TITLE': 'AI Stock Prediction API',
     'DESCRIPTION': (
         'AI-based stock prediction and recommendation system using Django REST Framework and machine learning models.'
     ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
+
+    # 👇 These two together fix it
+    'SCHEMA_PATH_PREFIX': r'/api/v1',
+    'SCHEMA_PATH_PREFIX_TRIM': True,
 }
+
