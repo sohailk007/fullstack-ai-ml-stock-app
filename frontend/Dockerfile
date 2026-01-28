@@ -1,20 +1,30 @@
 # Use the Official Node.js 18 image as the base image
-FROM node:lts-alpine3.23 AS development
+#FROM node:lts-alpine3.23 AS development
 
-# Set the working direcotory inside the container
-WORKDIR /frontend 
+# ---------- Build Stage ----------
+FROM node:lts-alpine AS build
 
-# Copy package.json and package-lock.json to the working directory
+WORKDIR /frontend
+
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy all files in the application code to the working directory
 COPY . .
+RUN npm run build
 
-# Expose port 5173 for the application
-EXPOSE 5173
+# ---------- Production Stage ----------
+FROM nginx:alpine
 
-# Start the React development server with hot-reloading
-CMD ["npm", "run", "dev"]
+# Remove default Nginx config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy build output to Nginx html directory
+COPY --from=build /frontend/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
