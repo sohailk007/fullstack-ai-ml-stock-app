@@ -36,6 +36,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173" # Assuming frontend runs on 5173
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 # Django core framework apps
 DJANGO_CORE_APPS = [
     'django.contrib.admin',
