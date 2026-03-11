@@ -104,7 +104,7 @@ const Dashboard = () => {
                     Loading...
                   </>
                 ) : (
-                  "Predict"
+                  "Prediction"
                 )}
               </button>
             </form>
@@ -149,7 +149,7 @@ const Dashboard = () => {
           <div className="row mt-4">
             <div className="col-12 col-lg-10 mx-auto">
               <div className="card shadow p-3">
-                <h6 className="mb-3 text-center">Prediction</h6>
+                <h6 className="mb-3 text-center">Predict</h6>
                 <img
                   src={prediction}
                   alt="Stock prediction chart"

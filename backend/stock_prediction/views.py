@@ -17,6 +17,12 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 from sklearn.metrics import mean_squared_error, r2_score
 
+# Load model once at module level
+try:
+    ML_MODEL = load_model('stock_prediction_model.keras')
+except Exception as e:
+    print(f"Error loading model: {e}")
+    ML_MODEL = None
 
 @extend_schema(
     tags=["Stock Prediction"],
@@ -87,7 +93,10 @@ class StockPredictionView(APIView):
         scaler = MinMaxScaler(feature_range=(0,1))
         
         # Load ML Model
-        model = load_model('stock_prediction_model.keras')
+        if ML_MODEL is None:
+            return Response({"error": "Model not loaded"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        
+        model = ML_MODEL
         
         # Prepare testing data
         past_100_days = training_data.tail(100)

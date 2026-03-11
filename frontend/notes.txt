@@ -1,0 +1,4 @@
+# For Developement
+docker compose --profile dev up --build 
+# For Production
+docker compose --profile prod up --build
